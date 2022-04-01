@@ -1,0 +1,26 @@
+# !/bin/bash
+
+echo "Hello ${USER}"
+echo "Enter your birday month (number)"
+read birth_month
+echo "Enter birthday day"
+read birth_day
+
+#date -d "2 days 3 month -$date" +"%j"
+
+#the to following are stored as seconds since epoch 
+birth_epoch=$(date --date="$birth_month/$birth_day" "+%j")
+today_epoch=$(date "+%j")
+
+echo "$birth_epoch"
+echo "$today_epoch"
+
+if [ ${today_epoch#0} -lt ${birth_epoch#0} ]
+then
+	days=$(( ${birth_epoch#0} - ${today_epoch#0} ))
+else
+	days=$(( ${birth_epoch#0} - ${today_epoch#0} + 1))
+fi
+
+
+echo "There are $days days until your birthday"
