@@ -1,5 +1,18 @@
 #!/bin/bash
 
+if [ "$#" -ne 1 ]
+then
+        offset=0
+else
+        offset=$1
+fi
+
+if [ $offset -gt 5475 ]
+then
+        echo "offset cannot exceed 5475 (15 years)"
+        exit 1
+fi
+
 echo "Hello ${USER}"
 echo "Enter your birday month (number)"
 read birth_month
@@ -7,13 +20,15 @@ echo "Enter birthday day"
 read birth_day
 
 
-year=$(date '+%y')
+offset_date=$(date -d "$offset days")
+year=$(date -d "$offset days" "+%y")
+
 next_year=$(( year + 1))
-form_today=$(date "+%m%d")
+form_today=$(date -d "$offset days" "+%m%d")
 
 #the to following are stored in days since january 1st
 birth=$(date --date="$birth_month/$birth_day" "+%j")
-today=$(date "+%j")
+today=$(date -d "$offset days" "+%j")
 birth_next_y=$(date --date="$birth_month/$birth_day/$next_year" "+%j")
 days_in_y=$(date --date="12/31/$year" "+%j")
 
@@ -25,55 +40,28 @@ days_in_y=$(echo $days_in_y | grep -o "[^0].*$")
 
 if [ $today -gt $birth ]
 then
-	days=$(( days_in_y + birth_next_y - today ))	
+days=$(( days_in_y + birth_next_y - today ))
 else
-	days=$(( birth - today ))
+days=$(( birth - today ))
 fi
 
 echo "There are $days days until your birthday"
 
 if [ $days -eq 0 ]
 then
-	echo "Happy Birthday"
+echo "Happy Birthday"
 fi
 
 if [ $form_today -eq "1031" ]
 then
-	echo "Happy Halloween"
+echo "Happy Halloween"
 elif [ $form_today -eq "1225" ]
 then 
-	echo "Merry Christmas" 
+echo "Merry Christmas" 
 elif [ $form_today -eq "0317" ]
 then
-	echo "Happy St. Patrick's day"
+echo "Happy St. Patrick's day"
 elif [ $form_today -eq "0701" ]
 then
-	echo "Happy Canada Day"
+echo "Happy Canada Day"
 fi
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
