@@ -9,6 +9,7 @@ read birth_day
 
 year=$(date '+%y')
 next_year=$(( year + 1))
+form_today=$(date "+%m%d")
 
 #the to following are stored in days since january 1st
 birth=$(date --date="$birth_month/$birth_day" "+%j")
@@ -22,12 +23,57 @@ today=$(echo $today | grep -o "[^0].*$")
 birth_next_y=$(echo $birth_next_y | grep -o "[^0].*$")
 days_in_y=$(echo $days_in_y | grep -o "[^0].*$")
 
-
 if [ $today -gt $birth ]
 then
-	days=$(( days_in_y + birth_next_y - today ))
+	days=$(( days_in_y + birth_next_y - today ))	
 else
 	days=$(( birth - today ))
 fi
 
 echo "There are $days days until your birthday"
+
+if [ $days -eq 0 ]
+then
+	echo "Happy Birthday"
+fi
+
+if [ $form_today -eq "1031" ]
+then
+	echo "Happy Halloween"
+elif [ $form_today -eq "1225" ]
+then 
+	echo "Merry Christmas" 
+elif [ $form_today -eq "0317" ]
+then
+	echo "Happy St. Patrick's day"
+elif [ $form_today -eq "0701" ]
+then
+	echo "Happy Canada Day"
+fi
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
