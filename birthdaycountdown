@@ -6,21 +6,28 @@ read birth_month
 echo "Enter birthday day"
 read birth_day
 
-#date -d "2 days 3 month -$date" +"%j"
 
-#the to following are stored as seconds since epoch 
-birth_epoch=$(date --date="$birth_month/$birth_day" "+%j")
-today_epoch=$(date "+%j")
+year=$(date '+%y')
+next_year=$(( year + 1))
 
-echo "$birth_epoch"
-echo "$today_epoch"
+#the to following are stored in days since january 1st
+birth=$(date --date="$birth_month/$birth_day" "+%j")
+today=$(date "+%j")
+birth_next_y=$(date --date="$birth_month/$birth_day/$next_year" "+%j")
+days_in_y=$(date --date="12/31/$year" "+%j")
 
-if [ ${today_epoch#0} -lt ${birth_epoch#0} ]
+#remove the zeros at the start of the number 
+birth=$(echo $birth | grep -o "[^0].*$")
+today=$(echo $today | grep -o "[^0].*$")
+birth_next_y=$(echo $birth_next_y | grep -o "[^0].*$")
+days_in_y=$(echo $days_in_y | grep -o "[^0].*$")
+
+
+if [ $today -gt $birth ]
 then
-	days=$(( ${birth_epoch#0} - ${today_epoch#0} ))
+	days=$(( days_in_y + birth_next_y - today ))
 else
-	days=$(( ${birth_epoch#0} - ${today_epoch#0} + 1))
+	days=$(( birth - today ))
 fi
-
 
 echo "There are $days days until your birthday"
